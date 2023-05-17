@@ -10,9 +10,12 @@ namespace ariel
 
     public:
         OldNinja(std::string name, Point location);
-        OldNinja(const OldNinja& other); // copy constructor
-        ~OldNinja(); // destructor
+        OldNinja(const OldNinja &other);
+        OldNinja(OldNinja &&other) noexcept;
+        ~OldNinja();
 
-        bool operator==(const OldNinja& other) const; // operator== override
+        OldNinja &operator=(const OldNinja &other);
+        bool operator==(const OldNinja &other) const;
+        OldNinja &operator=(OldNinja &&other) noexcept;
     };
 }

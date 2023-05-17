@@ -18,13 +18,12 @@ namespace ariel
         void move(Character *target);
         void slash(Character *target);
 
-        // copy constructor
         Ninja(const Ninja &other);
-        // destructor
+        Ninja(Ninja &&other) noexcept;
         ~Ninja();
-        // assignment operator
+
         Ninja &operator=(const Ninja &other);
-        // equality operator
+        Ninja &operator=(Ninja &&other) noexcept;
         bool operator==(const Ninja &other) const;
     };
 }

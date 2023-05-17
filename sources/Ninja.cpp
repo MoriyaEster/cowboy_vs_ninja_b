@@ -21,17 +21,19 @@ void Ninja::slash(Character *target)
 {
 }
 
-// copy constructor
-Ninja::Ninja(const Ninja& other) 
+Ninja::Ninja(const Ninja &other)
     : Character(other), _speed(other._speed), _type(other._type)
 {
 }
 
-// destructor
+Ninja::Ninja(Ninja &&other) noexcept
+    : Character(std::move(other)), _speed(other._speed), _type(other._type)
+{
+}
+
 Ninja::~Ninja() {}
 
-// assignment operator
-Ninja& Ninja::operator=(const Ninja& other)
+Ninja &Ninja::operator=(const Ninja &other)
 {
     if (this != &other)
     {
@@ -42,8 +44,18 @@ Ninja& Ninja::operator=(const Ninja& other)
     return *this;
 }
 
-// equality operator
-bool Ninja::operator==(const Ninja& other) const
+Ninja &Ninja::operator=(Ninja &&other) noexcept
+{
+    if (this != &other)
+    {
+        Character::operator=(std::move(other));
+        _speed = other._speed;
+        _type = other._type;
+    }
+    return *this;
+}
+
+bool Ninja::operator==(const Ninja &other) const
 {
     return Character::operator==(other) && _speed == other._speed && _type == other._type;
 }

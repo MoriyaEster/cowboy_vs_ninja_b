@@ -20,6 +20,14 @@ namespace ariel
     {
     }
 
+    Character::Character(Character &&other) noexcept
+        : _location(std::move(other._location)), _self_Hit(std::move(other._self_Hit)), _name(std::move(other._name))
+    {
+        other._location = Point();
+        other._self_Hit = 0;
+        other._name = "";
+    }
+
     Character::~Character()
     {
     }
@@ -31,6 +39,23 @@ namespace ariel
             _location = other._location;
             _self_Hit = other._self_Hit;
             _name = other._name;
+        }
+        return *this;
+    }
+
+    Character &Character::operator=(Character &&other) noexcept
+    {
+        if (this != &other)
+        {
+            // Move member variables from the source object
+            _location = std::move(other._location);
+            _self_Hit = std::move(other._self_Hit);
+            _name = std::move(other._name);
+
+            // Reset the moved-from object's data
+            other._location = Point();
+            other._self_Hit = 0;
+            other._name = "";
         }
         return *this;
     }

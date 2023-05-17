@@ -17,15 +17,19 @@ namespace ariel
         _y = 0.0;
     }
 
-    Point::Point(const Point& other)
+    Point::Point(const Point &other)
     {
         _x = other.getX();
         _y = other.getY();
     }
 
+    Point::Point(Point &&other) noexcept
+        : _x(other.getX()), _y(other.getY())
+    {
+    }
+
     Point::~Point()
     {
-        // Destructor code goes here (if needed)
     }
 
     double Point::distance(Point dest)
@@ -55,12 +59,22 @@ namespace ariel
         return src;
     }
 
-    bool Point::operator==(const Point& other) const
+    bool Point::operator==(const Point &other) const
     {
         return (_x == other.getX() && _y == other.getY());
     }
 
-    Point& Point::operator=(const Point& other)
+    Point &Point::operator=(const Point &other)
+    {
+        if (this != &other)
+        {
+            _x = other._x;
+            _y = other._y;
+        }
+        return *this;
+    }
+
+    Point &Point::operator=(Point &&other) noexcept
     {
         if (this != &other)
         {

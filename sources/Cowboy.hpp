@@ -11,8 +11,12 @@ namespace ariel
 
     public:
         Cowboy(std::string name, Point location);
-        // Cowboy(const Cowboy &other); // copy constructor
-        ~Cowboy(); // destructor
+        Cowboy(Cowboy &other);          // Copy constructor
+        Cowboy(Cowboy &&other) noexcept;      // Move constructor
+        ~Cowboy();                            // Destructor
+
+        Cowboy &operator=(const Cowboy &other);    // Copy assignment operator
+        Cowboy &operator=(Cowboy &&other) noexcept; // Move assignment operator
 
         void shoot(Character *target);
         bool hasboolets();
@@ -21,6 +25,6 @@ namespace ariel
         int getNum_Of_bolls();
         char getType();
 
-        bool operator==(const Cowboy &other); // equality operator
+        bool operator==(const Cowboy &other); // Equality operator
     };
 }

@@ -24,9 +24,11 @@ namespace ariel
         Character(Point location, int self_Hit, std::string name);
         Character();
         Character(const Character &other);
+        Character(Character &&other) noexcept; // Move constructor
         ~Character();
 
         Character &operator=(const Character &other);
+        Character &operator=(Character &&other) noexcept; // Move assignment operator
         bool operator==(const Character &other) const;
 
         void setLocation(Point location);

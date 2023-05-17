@@ -18,9 +18,10 @@ namespace ariel
         double _y;
 
     public:
-        Point(double x, double y);
+        Point(double _x_, double _y_);
         Point();
-        Point(const Point& other);
+        Point(const Point &other);
+        Point(Point &&other) noexcept;
         ~Point();
 
         double distance(Point dest);
@@ -32,7 +33,8 @@ namespace ariel
 
         Point moveTowards(Point src, Point dst, double dis);
 
-        bool operator==(const Point& other) const;
-        Point& operator=(const Point& other);
+        bool operator==(const Point &other) const;
+        Point &operator=(const Point &other);
+        Point &operator=(Point &&other) noexcept;
     };
 }
