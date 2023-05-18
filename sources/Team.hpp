@@ -20,17 +20,22 @@ namespace ariel
     class Team
     {
     public:
-        std::vector<Character *> team;
+        std::vector<Ninja *> team_ninja;
+        std::vector<Cowboy *> team_cowboy;
         Character *leader;
         int size;
+        int size_ninja;
+        int size_cowboy;
 
-        Team(Character *leader);
+        Team(Ninja *leader);
+        Team(Cowboy *leader);
         ~Team();
 
         Team &operator=(const Team &other);
         bool operator==(const Team &other) const;
 
-        void add(Character *player);
+        void add(Ninja *player);
+        void add(Cowboy *player);
         void attack(Team *enemy);
         int stillAlive();
         void print();
