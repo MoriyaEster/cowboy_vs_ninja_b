@@ -12,7 +12,7 @@ namespace ariel
         YoungNinja(std::string name, Point location);
         YoungNinja(const YoungNinja &other);
         YoungNinja(YoungNinja &&other) noexcept;
-        ~YoungNinja();
+        virtual ~YoungNinja();
 
         bool operator==(const YoungNinja &other) const;
         YoungNinja &operator=(const YoungNinja &other);

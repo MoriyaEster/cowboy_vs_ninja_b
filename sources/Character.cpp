@@ -5,6 +5,9 @@ namespace ariel
     using namespace std;
 
     // ************************************************************************//
+    // costractors//
+    // ************************************************************************//
+
     Character::Character(Point location, int self_Hit, std::string name)
         : _location(location), _self_Hit(self_Hit), _name(name)
     {
@@ -32,6 +35,10 @@ namespace ariel
     {
     }
 
+    // ************************************************************************//
+    // operators//
+    // ************************************************************************//
+
     Character &Character::operator=(const Character &other)
     {
         if (this != &other)
@@ -47,12 +54,10 @@ namespace ariel
     {
         if (this != &other)
         {
-            // Move member variables from the source object
             _location = std::move(other._location);
             _self_Hit = std::move(other._self_Hit);
             _name = std::move(other._name);
 
-            // Reset the moved-from object's data
             other._location = Point();
             other._self_Hit = 0;
             other._name = "";
@@ -66,25 +71,27 @@ namespace ariel
     }
 
     // ************************************************************************//
+    // functions//
+    // ************************************************************************//
 
     void Character::setLocation(Point location)
     {
         this->_location = location;
     }
+
     int Character::getself_Hit()
     {
         return this->_self_Hit;
     }
+
     void Character::setself_Hit(int self_Hit)
     {
         this->_self_Hit = self_Hit;
     }
 
-    // ************************************************************************//
-
     bool Character::isAlive()
     {
-        if (_self_Hit)
+        if (this->getself_Hit())
         {
             return true;
         }
@@ -93,12 +100,16 @@ namespace ariel
 
     double Character::distance(Character &other)
     {
-        // this->getLocation().distance(Character::other.getLocation());
-        return 0.0;
+        return _location.distance(other.getLocation());
     }
 
     void Character::hit(int value)
     {
+        if (this->getself_Hit() - value < 0)
+        {
+            this->setself_Hit(0);
+        }
+        this->setself_Hit(this->getself_Hit() - value);
     }
 
     std::string Character::getName()

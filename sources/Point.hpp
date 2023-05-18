@@ -29,7 +29,7 @@ namespace ariel
         double getX() const;
         double getY() const;
 
-        void print() const;
+        std::string print();
 
         Point moveTowards(Point src, Point dst, double dis);
 

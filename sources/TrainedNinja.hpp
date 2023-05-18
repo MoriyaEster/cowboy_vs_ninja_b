@@ -12,7 +12,7 @@ namespace ariel
         TrainedNinja(std::string name, Point location);
         TrainedNinja(const TrainedNinja &other);
         TrainedNinja(TrainedNinja &&other) noexcept;
-        ~TrainedNinja();
+        virtual ~TrainedNinja();
 
         bool operator==(const TrainedNinja &other) const;
         TrainedNinja &operator=(const TrainedNinja &other);

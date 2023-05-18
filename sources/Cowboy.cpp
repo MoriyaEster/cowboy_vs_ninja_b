@@ -18,7 +18,6 @@ Cowboy::Cowboy(Cowboy &other)
 Cowboy::Cowboy(Cowboy &&other) noexcept
     : Character(std::move(other)), _num_Of_bolls(6)
 {
-    // No need to move the _type member as it is a primitive type (char)
 }
 
 Cowboy::~Cowboy()
@@ -29,11 +28,23 @@ Cowboy::~Cowboy()
 
 void Cowboy::shoot(Character *target)
 {
+    if (this->isAlive() && this->getNum_Of_bolls())
+    {
+        this->_num_Of_bolls -= 1;
+        if ((target->getself_Hit() - 10) < 0)
+        {
+            target->setself_Hit(0);
+        }
+        target->setself_Hit(target->getself_Hit() - 10);
+    }
 }
 
 bool Cowboy::hasboolets()
 {
-    return true;
+    if (this->getNum_Of_bolls() > 0){
+        return true;
+    }
+    return false;
 }
 
 void Cowboy::reload()
@@ -55,20 +66,25 @@ char Cowboy::getType()
 
 bool Cowboy::operator==(const Cowboy &other)
 {
-    return true;
+    return Character::operator==(other) && _num_Of_bolls == other._num_Of_bolls && _type == other._type;
 }
 
 Cowboy &Cowboy::operator=(Cowboy &&other) noexcept
 {
     if (this != &other)
     {
-        Character::operator=(std::move(other)); // Move assign base class members
+        Character::operator=(std::move(other));
 
         _num_Of_bolls = other._num_Of_bolls;
         other._num_Of_bolls = 0;
 
-        // No need to move the _type member as it is a primitive type (char)
     }
     return *this;
 }
 
+std::string Cowboy::print()
+{
+    std::ostringstream oss;
+    oss << "The name of the character: 'C' - " << this->getName() << " , The num of self_Hit: " << this->getself_Hit() << " , The location of the Cowboy is: " << (this->getLocation()).print();
+    return oss.str();
+}

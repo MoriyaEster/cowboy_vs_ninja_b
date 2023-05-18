@@ -49,14 +49,30 @@ namespace ariel
         return this->_y;
     }
 
-    void Point::print() const
+    std::string Point::print()
     {
-        cout << "(" << _x << "," << _y << ")" << endl;
+        std::ostringstream oss;
+        oss << "(" << _x << "," << _y << ")";
+        return oss.str();
     }
 
     Point Point::moveTowards(Point src, Point dst, double dis)
     {
-        return src;
+        double dx = dst.getX() - src.getX();
+        double dy = dst.getY() - src.getY();
+        double distance = std::sqrt(dx * dx + dy * dy);
+
+        if (distance <= dis)
+        {
+            return dst;
+        }
+
+        double ratio = dis / distance;
+
+        double newX = src.getX() + (dx * ratio);
+        double newY = src.getY() + (dy * ratio);
+
+        return Point(newX, newY);
     }
 
     bool Point::operator==(const Point &other) const

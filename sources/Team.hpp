@@ -20,25 +20,20 @@ namespace ariel
     class Team
     {
     public:
-        std::vector <Character> team;
+        std::vector<Character *> team;
         Character *leader;
+        int size;
 
         Team(Character *leader);
+        ~Team();
+
+        Team &operator=(const Team &other);
+        bool operator==(const Team &other) const;
+
         void add(Character *player);
-        void attack(Team * enemy);
+        void attack(Team *enemy);
         int stillAlive();
         void print();
-        
-
     };
 
 }
-
-
-
-
-
-
-
-        // Team &operator=(const Team &other);
-        // bool operator==(const Team &other) const;
