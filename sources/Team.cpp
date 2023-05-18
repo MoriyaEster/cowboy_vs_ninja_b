@@ -18,6 +18,48 @@ Team::Team(Cowboy *leader)
     size++;
 }
 
+// Team::Team(const Team &other)
+// {
+//     // Copy the leader
+//     if (dynamic_cast<Ninja *>(other.leader))
+//     {
+//         Ninja *ninjaLeader = dynamic_cast<Ninja *>(other.leader);
+//         leader = new Ninja(*ninjaLeader);
+//     }
+//     else if (dynamic_cast<Cowboy *>(other.leader))
+//     {
+//         Cowboy *cowboyLeader = dynamic_cast<Cowboy *>(other.leader);
+//         leader = new Cowboy(*cowboyLeader);
+//     }
+
+//     // Copy the ninja team
+//     for (Ninja *ninja : other.team_ninja)
+//     {
+//         team_ninja.push_back(new Ninja(*ninja));
+//     }
+
+//     // Copy the cowboy team
+//     for (Cowboy *cowboy : other.team_cowboy)
+//     {
+//         team_cowboy.push_back(new Cowboy(*cowboy));
+//     }
+
+//     size = other.size;
+//     size_ninja = other.size_ninja;
+//     size_cowboy = other.size_cowboy;
+// }
+
+// Team::Team(Team &&other) noexcept
+//     : leader(other.leader), team_ninja(std::move(other.team_ninja)),
+//       team_cowboy(std::move(other.team_cowboy)), size(other.size),
+//       size_ninja(other.size_ninja), size_cowboy(other.size_cowboy)
+// {
+//     other.leader = nullptr;
+//     other.size = 0;
+//     other.size_ninja = 0;
+//     other.size_cowboy = 0;
+// }
+
 Team::~Team()
 {
     if (size > 0)
@@ -125,8 +167,6 @@ void Team::attack(Team *enemy)
     //     size_ninja--;
     //     size--;
     // }
-
-    
 }
 
 int Team::stillAlive()

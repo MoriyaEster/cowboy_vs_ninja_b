@@ -39,7 +39,7 @@ void Ninja::move(Character *target)
 
 void Ninja::slash(Character *target)
 {
-    if (this->isAlive() && ((this->getLocation()).distance(target->getLocation()) < 1))
+    if (this->isAlive() && ((this->getLocation()).distance(target->getLocation()) <= 1))
     {
         if ((target->getself_Hit() - 40) < 0)
         {

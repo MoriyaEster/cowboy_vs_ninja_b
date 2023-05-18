@@ -98,9 +98,9 @@ namespace ariel
         return false;
     }
 
-    double Character::distance(Character &other)
+    double Character::distance(Character *other)
     {
-        return _location.distance(other.getLocation());
+        return _location.distance(other->getLocation());
     }
 
     void Character::hit(int value)

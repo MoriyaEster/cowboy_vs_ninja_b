@@ -3,7 +3,7 @@
 using namespace ariel;
 
 Team2::Team2(Ninja *leader)
-    : leader(leader)
+    : Team(leader)
 {
     team_ninja.push_back(leader);
     order.push_back(1);
@@ -12,7 +12,7 @@ Team2::Team2(Ninja *leader)
 }
 
 Team2::Team2(Cowboy *leader)
-    : leader(leader)
+    : Team(leader)
 {
     team_cowboy.push_back(leader);
     order.push_back(2);
@@ -117,7 +117,7 @@ void Team2::add(Cowboy *player)
     }
 }
 
-void Team2::attack(Team2 *enemy)
+void Team2::attack(Team *enemy)
 {
     // if (size_cowboy)
     // {

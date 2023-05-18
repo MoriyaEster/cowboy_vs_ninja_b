@@ -31,7 +31,7 @@ namespace ariel
 
         std::string print();
 
-        Point moveTowards(Point src, Point dst, double dis);
+        static Point moveTowards(Point src, Point dst, double dis);
 
         bool operator==(const Point &other) const;
         Point &operator=(const Point &other);

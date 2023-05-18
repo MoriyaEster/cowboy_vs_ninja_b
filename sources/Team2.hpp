@@ -7,17 +7,11 @@
 #include <cassert>
 #include <vector>
 
-#include "Point.hpp"
-#include "Character.hpp"
-#include "Cowboy.hpp"
-#include "Ninja.hpp"
-#include "YoungNinja.hpp"
-#include "OldNinja.hpp"
-#include "TrainedNinja.hpp"
+#include "Team.hpp"
 namespace ariel
 {
 
-    class Team2
+    class Team2 : public Team
     {
     public:
         std::vector<Ninja *> team_ninja;
@@ -30,16 +24,16 @@ namespace ariel
 
         Team2(Ninja *leader);
         Team2(Cowboy *leader);
-        ~Team2();
+        virtual ~Team2();
 
-        Team2 &operator=(const Team2 &other);
-        bool operator==(const Team2 &other) const;
+        virtual Team2 &operator=(const Team2 &other);
+        virtual bool operator==(const Team2 &other) const;
 
-        void add(Ninja *player);
-        void add(Cowboy *player);
-        void attack(Team2 *enemy);
-        int stillAlive();
-        void print();
+        virtual void add(Ninja *player);
+        virtual void add(Cowboy *player);
+        virtual void attack(Team *enemy) override;
+        virtual int stillAlive();
+        virtual void print();
     };
 
 }

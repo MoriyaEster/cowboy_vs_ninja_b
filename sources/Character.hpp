@@ -36,7 +36,7 @@ namespace ariel
         void setself_Hit(int self_Hit);
 
         bool isAlive();
-        double distance(Character &other);
+        double distance(Character *other);
         void hit(int value);
         std::string getName();
         Point getLocation();
