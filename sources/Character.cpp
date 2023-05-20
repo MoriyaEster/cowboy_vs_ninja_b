@@ -91,7 +91,7 @@ namespace ariel
 
     bool Character::isAlive()
     {
-        if (this->getself_Hit())
+        if ((this->getself_Hit()) > 0)
         {
             return true;
         }

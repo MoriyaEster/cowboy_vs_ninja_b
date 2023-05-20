@@ -24,7 +24,7 @@ namespace ariel
 
         // Team2(Ninja *leader);
         // Team2(Cowboy *leader);
-        Team2(Character *leader);
+        Team2(Character *new_leader);
         virtual ~Team2();
 
         virtual Team2 &operator=(const Team2 &other);
@@ -34,8 +34,10 @@ namespace ariel
         // virtual void add(Cowboy *player);
         virtual void add(Character *player) override;
         virtual void attack(Team *enemy) override;
-        virtual int stillAlive();
-        virtual void print();
+        virtual int stillAlive() override;
+        virtual void print() override;
+
+        virtual Character *close_player(Character *current_leader) override;
     };
 
 }

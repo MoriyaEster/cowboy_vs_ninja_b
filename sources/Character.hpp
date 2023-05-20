@@ -21,6 +21,7 @@ namespace ariel
         std::string _name;
 
     public:
+        bool play_now = false;
         Character(Point location, int self_Hit, std::string name);
         Character();
         Character(const Character &other);

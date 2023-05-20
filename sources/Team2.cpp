@@ -1,4 +1,5 @@
 #include "Team2.hpp"
+#include <climits>
 
 using namespace ariel;
 
@@ -20,20 +21,27 @@ using namespace ariel;
 //     size++;
 // }
 
-Team2::Team2(Character *leader)
-    :Team(leader)
+Team2::Team2(Character *new_leader)
+    : Team(new_leader)
 {
-    if ((dynamic_cast<Cowboy *>(leader)) != NULL)
+    if (new_leader->play_now)
     {
-        leader = leader;
-        team_cowboy.push_back(dynamic_cast<Cowboy *>(leader));
+        throw std::runtime_error("The player is playing now");
+    }
+    new_leader->play_now = true;
+    if ((dynamic_cast<Cowboy *>(new_leader)) != NULL)
+    {
+        printf("the leader is coeboy\n");
+        this->leader = new_leader;
+        team_cowboy.push_back(dynamic_cast<Cowboy *>(new_leader));
         size_cowboy++;
         size++;
     }
-    if ((dynamic_cast<Ninja *>(leader)) != NULL)
+    if ((dynamic_cast<Ninja *>(new_leader)) != NULL)
     {
-        leader = leader;
-        team_ninja.push_back(dynamic_cast<Ninja *>(leader));
+        printf("the leader is ninja\n");
+        this->leader = new_leader;
+        team_ninja.push_back(dynamic_cast<Ninja *>(new_leader));
         size_ninja++;
         size++;
     }
@@ -138,6 +146,11 @@ bool Team2::operator==(const Team2 &other) const
 
 void Team2::add(Character *player)
 {
+    if (player->play_now)
+    {
+        throw std::runtime_error("The player is playing now");
+    }
+    player->play_now = true;
     if (size <= 0)
     {
         throw std::runtime_error("There is no leader to the team");
@@ -162,27 +175,101 @@ void Team2::add(Character *player)
 
 void Team2::attack(Team *enemy)
 {
-    // if (size_cowboy)
-    // {
-    //     team_cowboy.pop_back();
-    //     size_cowboy--;
-    //     size--;
-    // }
-    // if (size_ninja)
-    // {
-    //     team_ninja.pop_back();
-    //     size_ninja--;
-    //     size--;
-    // }
+    printf("attack");
+    if (!enemy->stillAlive())
+    {
+        printf("the enemy died\n");
+    }
+    if (!enemy->leader->isAlive())
+    {
+        if ((dynamic_cast<Cowboy *>(enemy->leader)) != NULL)
+        {
+            enemy->size--;
+            enemy->size_cowboy--;
+        }
+        if ((dynamic_cast<Ninja *>(enemy->leader)) != NULL)
+        {
+            enemy->size--;
+            enemy->size_ninja--;
+        }
+        enemy->leader = close_player(enemy->leader);
+    }
+
+    Character *target = close_player(this->leader);
+
+    for (size_t i = 0; i < size_cowboy; i++)
+    {
+        if (!target->isAlive())
+        {
+            if ((dynamic_cast<Cowboy *>(target)) != NULL)
+            {
+                enemy->size--;
+                enemy->size_cowboy--;
+            }
+            if ((dynamic_cast<Ninja *>(target)) != NULL)
+            {
+                enemy->size--;
+                enemy->size_ninja--;
+            }
+            target = close_player(this->leader);
+        }
+
+        if (team_cowboy[i]->isAlive())
+        {
+            if (!team_cowboy[i]->hasboolets())
+                team_cowboy[i]->reload();
+            team_cowboy[i]->shoot(target);
+        }
+    }
+    for (size_t j = 0; j < size_ninja; j++)
+    {
+        if (!target->isAlive())
+        {
+            if ((dynamic_cast<Cowboy *>(target)) != NULL)
+            {
+                enemy->size--;
+                enemy->size_cowboy--;
+            }
+            if ((dynamic_cast<Ninja *>(target)) != NULL)
+            {
+                enemy->size--;
+                enemy->size_ninja--;
+            }
+            target = close_player(this->leader);
+        }
+        if (team_ninja[j]->isAlive())
+        {
+            if ((team_ninja[j]->distance(target)) < 1)
+            {
+                team_ninja[j]->slash(target);
+            }
+            team_ninja[j]->move(target);
+        }
+    }
 }
 
 int Team2::stillAlive()
 {
-    if (size == 0)
+     int size_of_the_team = 0;
+    int size_of_the_cowboys = 0;
+    int size_of_the_ninjas = 0;
+    for (size_t i = 0; i < team_cowboy.size(); i++)
     {
-        return false;
+        if (team_cowboy[i]->isAlive())
+        {
+            size_of_the_cowboys++;
+            size_of_the_team++;
+        }
     }
-    return true;
+    for (size_t j = 0; j < team_ninja.size(); j++)
+    {
+        if (team_ninja[j]->isAlive())
+        {
+            size_of_the_ninjas++;
+            size_of_the_team++;
+        }
+    }
+    return size_of_the_team;
 }
 
 void Team2::print()
@@ -209,4 +296,38 @@ void Team2::print()
             }
         }
     }
+}
+
+Character *Team2::close_player(Character *current_leader)
+{
+    int min = INT_MAX;
+    if (size_cowboy)
+    {
+        for (size_t i = 0; i < size_cowboy; i++)
+        {
+            if ((current_leader->distance(team_cowboy[i])) < min)
+            {
+                if ((team_cowboy[i])->isAlive())
+                {
+                    min = current_leader->distance(team_cowboy[i]);
+                    return team_cowboy[i];
+                }
+            }
+        }
+    }
+    if (size_ninja)
+    {
+        for (size_t j = 0; j < size_ninja; j++)
+        {
+            if ((current_leader->distance(team_ninja[j])) < min)
+            {
+                if ((team_ninja[j])->isAlive())
+                {
+                    min = current_leader->distance(team_ninja[j]);
+                    return team_ninja[j];
+                }
+            }
+        }
+    }
+    return NULL;
 }

@@ -29,7 +29,7 @@ namespace ariel
 
         // Team(Ninja *leader);
         // Team(Cowboy *leader);
-        Team(Character *leader);
+        Team(Character *new_leader);
         // Team(const Team &other);
         // Team(Team &&other) noexcept;
         ~Team();
@@ -41,8 +41,10 @@ namespace ariel
         // void add(Cowboy *player);
         virtual void add (Character *player);
         virtual void attack(Team *enemy);
-        int stillAlive();
-        void print();
+        virtual int stillAlive();
+        virtual void print();
+
+        virtual Character *close_player(Character * current_leader);
     };
 
 }

@@ -58,6 +58,10 @@ namespace ariel
 
     Point Point::moveTowards(Point src, Point dst, double dis)
     {
+        if (dis < 0)
+        {
+            throw std::invalid_argument("invalid distance");
+        }
         double dx = dst.getX() - src.getX();
         double dy = dst.getY() - src.getY();
         double distance = std::sqrt(dx * dx + dy * dy);
