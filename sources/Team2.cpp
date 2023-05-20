@@ -2,22 +2,41 @@
 
 using namespace ariel;
 
-Team2::Team2(Ninja *leader)
-    : Team(leader)
-{
-    team_ninja.push_back(leader);
-    order.push_back(1);
-    size_ninja++;
-    size++;
-}
+// Team2::Team2(Ninja *leader)
+//     : Team(leader)
+// {
+//     team_ninja.push_back(leader);
+//     order.push_back(1);
+//     size_ninja++;
+//     size++;
+// }
 
-Team2::Team2(Cowboy *leader)
-    : Team(leader)
+// Team2::Team2(Cowboy *leader)
+//     : Team(leader)
+// {
+//     team_cowboy.push_back(leader);
+//     order.push_back(2);
+//     size_cowboy++;
+//     size++;
+// }
+
+Team2::Team2(Character *leader)
+    :Team(leader)
 {
-    team_cowboy.push_back(leader);
-    order.push_back(2);
-    size_cowboy++;
-    size++;
+    if ((dynamic_cast<Cowboy *>(leader)) != NULL)
+    {
+        leader = leader;
+        team_cowboy.push_back(dynamic_cast<Cowboy *>(leader));
+        size_cowboy++;
+        size++;
+    }
+    if ((dynamic_cast<Ninja *>(leader)) != NULL)
+    {
+        leader = leader;
+        team_ninja.push_back(dynamic_cast<Ninja *>(leader));
+        size_ninja++;
+        size++;
+    }
 }
 
 Team2::~Team2()
@@ -79,7 +98,45 @@ bool Team2::operator==(const Team2 &other) const
     return true;
 }
 
-void Team2::add(Ninja *player)
+// void Team2::add(Ninja *player)
+// {
+//     if (size <= 0)
+//     {
+//         throw std::runtime_error("There is no leader to the team");
+//     }
+//     if (size >= 10)
+//     {
+//         throw std::overflow_error("The team is full");
+//     }
+//     else
+//     {
+//         team_ninja.push_back(player);
+//         order.push_back(1);
+//         size_ninja++;
+//         size++;
+//     }
+// }
+
+// void Team2::add(Cowboy *player)
+// {
+//     if (size <= 0)
+//     {
+//         throw std::runtime_error("There is no leader to the team");
+//     }
+//     if (size >= 10)
+//     {
+//         throw std::overflow_error("The team is full");
+//     }
+//     else
+//     {
+//         team_cowboy.push_back(player);
+//         order.push_back(2);
+//         size_cowboy++;
+//         size++;
+//     }
+// }
+
+void Team2::add(Character *player)
 {
     if (size <= 0)
     {
@@ -89,30 +146,16 @@ void Team2::add(Ninja *player)
     {
         throw std::overflow_error("The team is full");
     }
-    else
+    if ((dynamic_cast<Cowboy *>(player)) != NULL)
     {
-        team_ninja.push_back(player);
-        order.push_back(1);
-        size_ninja++;
+        team_cowboy.push_back((dynamic_cast<Cowboy *>(player)));
+        size_cowboy++;
         size++;
     }
-}
-
-void Team2::add(Cowboy *player)
-{
-    if (size <= 0)
+    if ((dynamic_cast<Ninja *>(player)) != NULL)
     {
-        throw std::runtime_error("There is no leader to the team");
-    }
-    if (size >= 10)
-    {
-        throw std::overflow_error("The team is full");
-    }
-    else
-    {
-        team_cowboy.push_back(player);
-        order.push_back(2);
-        size_cowboy++;
+        team_ninja.push_back((dynamic_cast<Ninja *>(player)));
+        size_ninja++;
         size++;
     }
 }
