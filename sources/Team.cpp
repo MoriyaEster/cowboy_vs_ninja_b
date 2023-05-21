@@ -191,9 +191,13 @@ void Team::attack(Team *enemy)
         throw std::runtime_error("the enemy died");
     }
 
+    if (!this->stillAlive())
+    {
+        throw std::runtime_error("the team died");
+    }
+
     if (!enemy->leader->isAlive())
     {
-
         if ((cowboy = dynamic_cast<Cowboy *>(enemy->leader)) != nullptr)
         {
             enemy->size--;
@@ -327,8 +331,8 @@ Character *Team::close_player(Character *current_leader)
         throw std::runtime_error("The team is null");
     }
     int min = INT_MAX;
-    Character *closet_target = nullptr;
-    if (team_cowboy.size())
+    Character *closet_target = current_leader;
+    if (team_cowboy.size() > 0)
     {
 
         for (size_t i = 0; i < size_cowboy; i++)
@@ -343,7 +347,7 @@ Character *Team::close_player(Character *current_leader)
             }
         }
     }
-    if (team_ninja.size())
+    if (team_ninja.size() > 0)
     {
         for (size_t j = 0; j < size_ninja; j++)
         {
