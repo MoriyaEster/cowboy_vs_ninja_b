@@ -27,18 +27,14 @@ namespace ariel
         int size_ninja;
         int size_cowboy;
 
-        // Team(Ninja *leader);
-        // Team(Cowboy *leader);
         Team(Character *new_leader);
         // Team(const Team &other);
         // Team(Team &&other) noexcept;
         ~Team();
 
-        Team &operator=(const Team &other);
-        bool operator==(const Team &other) const;
+        // Team &operator=(const Team &other);
+        // bool operator==(const Team &other) const;
 
-        // void add(Ninja *player);
-        // void add(Cowboy *player);
         virtual void add (Character *player);
         virtual void attack(Team *enemy);
         virtual int stillAlive();

@@ -13,29 +13,9 @@ void Ninja::move(Character *target)
 {
     if (this->isAlive())
     {
-        Point sourceLocation = this->getLocation();
-        Point targetLocation = target->getLocation();
-
-        double distance = sourceLocation.distance(targetLocation);
-
-        if (distance > _speed)
-        {
-            double dx = targetLocation.getX() - sourceLocation.getX();
-            double dy = targetLocation.getY() - sourceLocation.getY();
-
-            double ratio = _speed / distance;
-
-            double newX = sourceLocation.getX() + (dx * ratio);
-            double newY = sourceLocation.getY() + (dy * ratio);
-
-            this->setLocation(Point(newX, newY));
-        }
-        else{
-            this->setLocation(targetLocation);
-        }
+        this->setLocation(Point::moveTowards(this->getLocation(), target->getLocation(), _speed));
     }
 }
-
 
 void Ninja::slash(Character *target)
 {
@@ -88,7 +68,7 @@ bool Ninja::operator==(const Ninja &other) const
     return Character::operator==(other) && _speed == other._speed && _type == other._type;
 }
 
-std::string Ninja::print() 
+std::string Ninja::print()
 {
     std::ostringstream oss;
     oss << "The name of the character: 'N' - " << this->getName() << " , The num of self_Hit: " << this->getself_Hit() << " , The location of the Ninja is: " << (this->getLocation()).print();

@@ -3,29 +3,37 @@
 
 using namespace ariel;
 
-
 Team::Team(Character *new_leader)
 {
+    if (new_leader == nullptr)
+    {
+        throw std::runtime_error("1The player is null");
+    }
+
     if (new_leader->play_now)
     {
         throw std::runtime_error("The player is playing now");
     }
+
     new_leader->play_now = true;
+
     if ((dynamic_cast<Cowboy *>(new_leader)) != NULL)
     {
-        printf("the leader is coeboy\n");
         this->leader = new_leader;
         team_cowboy.push_back(dynamic_cast<Cowboy *>(new_leader));
-        size_cowboy++;
-        size++;
+        this->size_cowboy = 1;
+        this->size = 1;
     }
     if ((dynamic_cast<Ninja *>(new_leader)) != NULL)
     {
-        printf("the leader is ninja\n");
         this->leader = new_leader;
         team_ninja.push_back(dynamic_cast<Ninja *>(new_leader));
-        size_ninja++;
-        size++;
+        this->size_ninja = 1;
+        this->size = 1;
+    }
+    else
+    {
+        throw std::runtime_error("2The player is null");
     }
 }
 
@@ -73,72 +81,74 @@ Team::Team(Character *new_leader)
 
 Team::~Team()
 {
-    if (size > 0)
+
+    for (size_t i = 0; i < size_ninja; i++)
     {
-        for (size_t i = 0; i < size_ninja; i++)
-        {
-            team_ninja[i]->~Ninja();
-        }
-        for (size_t j = 0; j < size_cowboy; j++)
-        {
-            team_cowboy[j]->~Cowboy();
-        }
+        team_ninja[i]->~Ninja();
     }
-}
-
-Team &Team::operator=(const Team &other)
-{
-    printf("HAVE TO CHANGE: operator=(const Team &other)");
-    if (this != &other)
+    team_ninja.clear();
+    for (size_t j = 0; j < size_cowboy; j++)
     {
-        // delete leader;
-        // for (auto &player : team)
-        // {
-        //     delete player;
-        // }
-
-        // leader = other.leader->clone();
-        // team.clear();
-        // for (const auto &player : other.team)
-        // {
-        //     if (player != other.leader)
-        //     {
-        //         team.push_back(player->clone());
-        //     }
-        // }
+        team_cowboy[j]->~Cowboy();
     }
-    return *this;
+    team_cowboy.clear();
 }
 
-bool Team::operator==(const Team &other) const
-{
-    printf("HAVE TO CHANGE: operator==(const Team &other)");
-    // if (leader->getName() != other.leader->getName() || team.size() != other.team.size())
-    // {
-    //     return false;
-    // }
+// Team &Team::operator=(const Team &other)
+// {
+//     printf("HAVE TO CHANGE: operator=(const Team &other)");
+//     if (this != &other)
+//     {
+//         // delete leader;
+//         // for (auto &player : team)
+//         // {
+//         //     delete player;
+//         // }
 
-    // for (size_t i = 0; i < team.size(); i++)
-    // {
-    //     if (*team[i] != *other.team[i])
-    //     {
-    //         return false;
-    //     }
-    // }
-    return true;
-}
+//         // leader = other.leader->clone();
+//         // team.clear();
+//         // for (const auto &player : other.team)
+//         // {
+//         //     if (player != other.leader)
+//         //     {
+//         //         team.push_back(player->clone());
+//         //     }
+//         // }
+//     }
+//     return *this;
+// }
+
+// bool Team::operator==(const Team &other) const
+// {
+//     printf("HAVE TO CHANGE: operator==(const Team &other)");
+//     // if (leader->getName() != other.leader->getName() || team.size() != other.team.size())
+//     // {
+//     //     return false;
+//     // }
+
+//     // for (size_t i = 0; i < team.size(); i++)
+//     // {
+//     //     if (*team[i] != *other.team[i])
+//     //     {
+//     //         return false;
+//     //     }
+//     // }
+//     return true;
+// }
 
 void Team::add(Character *player)
 {
+    if (player == nullptr)
+    {
+        throw std::runtime_error("3The player is null");
+    }
     if (player->play_now)
     {
         throw std::runtime_error("The player is playing now");
     }
+
     player->play_now = true;
-    if (size <= 0)
-    {
-        throw std::runtime_error("There is no leader to the team");
-    }
+
     if (size >= 10)
     {
         throw std::overflow_error("The team is full");
@@ -159,11 +169,21 @@ void Team::add(Character *player)
 
 void Team::attack(Team *enemy)
 {
-    printf("attack");
+    if (enemy == nullptr)
+    {
+        throw std::runtime_error("The team is null");
+    }
+
+    if (enemy->leader == nullptr)
+    {
+        throw std::runtime_error("The team is null");
+    }
+
     if (!enemy->stillAlive())
     {
-        printf("the enemy died\n");
+        throw std::runtime_error("the enemy died");
     }
+
     if (!enemy->leader->isAlive())
     {
         if ((dynamic_cast<Cowboy *>(enemy->leader)) != NULL)
@@ -180,6 +200,10 @@ void Team::attack(Team *enemy)
     }
 
     Character *target = close_player(this->leader);
+    if (target == nullptr)
+    {
+        throw std::runtime_error("the target");
+    }
 
     for (size_t i = 0; i < size_cowboy; i++)
     {
@@ -271,6 +295,10 @@ void Team::print()
 
 Character *Team::close_player(Character *current_leader)
 {
+    if (current_leader == nullptr)
+    {
+        throw std::runtime_error("The team is null");
+    }
     int min = INT_MAX;
     if (size_cowboy)
     {
