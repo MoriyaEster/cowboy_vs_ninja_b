@@ -4,36 +4,41 @@
 using namespace ariel;
 
 Team::Team(Character *new_leader)
+    : leader(new_leader)
 {
     if (new_leader == nullptr)
     {
-        throw std::runtime_error("1The player is null");
+        throw std::runtime_error("1The new_leader is null");
     }
 
     if (new_leader->play_now)
     {
-        throw std::runtime_error("The player is playing now");
+        throw std::runtime_error("The new_leader is playing now");
     }
 
     new_leader->play_now = true;
 
-    if ((dynamic_cast<Cowboy *>(new_leader)) != NULL)
+    Cowboy *cowboy;
+    Ninja *ninja;
+
+    if ((ninja = dynamic_cast<Ninja *>(new_leader)) != nullptr)
     {
-        this->leader = new_leader;
-        team_cowboy.push_back(dynamic_cast<Cowboy *>(new_leader));
-        this->size_cowboy = 1;
-        this->size = 1;
-    }
-    if ((dynamic_cast<Ninja *>(new_leader)) != NULL)
-    {
-        this->leader = new_leader;
-        team_ninja.push_back(dynamic_cast<Ninja *>(new_leader));
+        team_ninja.push_back(ninja);
         this->size_ninja = 1;
         this->size = 1;
     }
+    else if ((cowboy = dynamic_cast<Cowboy *>(new_leader)) != nullptr)
+    {
+        if (cowboy != nullptr)
+        {
+            team_cowboy.push_back(cowboy);
+            this->size_cowboy = 1;
+            this->size = 1;
+        }
+    }
     else
     {
-        throw std::runtime_error("2The player is null");
+        throw std::runtime_error("2The new_leader is null");
     }
 }
 
@@ -153,22 +158,24 @@ void Team::add(Character *player)
     {
         throw std::overflow_error("The team is full");
     }
-    if ((dynamic_cast<Cowboy *>(player)) != NULL)
-    {
-        team_cowboy.push_back((dynamic_cast<Cowboy *>(player)));
-        size_cowboy++;
-        size++;
-    }
     if ((dynamic_cast<Ninja *>(player)) != NULL)
     {
         team_ninja.push_back((dynamic_cast<Ninja *>(player)));
         size_ninja++;
         size++;
     }
+    if ((dynamic_cast<Cowboy *>(player)) != NULL)
+    {
+        team_cowboy.push_back((dynamic_cast<Cowboy *>(player)));
+        size_cowboy++;
+        size++;
+    }
 }
 
 void Team::attack(Team *enemy)
 {
+    Cowboy *cowboy;
+    Ninja *ninja;
     if (enemy == nullptr)
     {
         throw std::runtime_error("The team is null");
@@ -186,38 +193,52 @@ void Team::attack(Team *enemy)
 
     if (!enemy->leader->isAlive())
     {
-        if ((dynamic_cast<Cowboy *>(enemy->leader)) != NULL)
+
+        if ((cowboy = dynamic_cast<Cowboy *>(enemy->leader)) != nullptr)
         {
             enemy->size--;
             enemy->size_cowboy--;
         }
-        if ((dynamic_cast<Ninja *>(enemy->leader)) != NULL)
+        else if ((ninja = dynamic_cast<Ninja *>(enemy->leader)) != nullptr)
         {
             enemy->size--;
             enemy->size_ninja--;
+        }
+        else
+        {
+            throw std::runtime_error("error");
         }
         enemy->leader = close_player(enemy->leader);
     }
 
     Character *target = close_player(this->leader);
+
     if (target == nullptr)
     {
-        throw std::runtime_error("the target");
+        return;
     }
 
     for (size_t i = 0; i < size_cowboy; i++)
     {
+        if (!enemy->stillAlive())
+        {
+            return;
+        }
         if (!target->isAlive())
         {
-            if ((dynamic_cast<Cowboy *>(target)) != NULL)
+            if ((ninja = dynamic_cast<Ninja *>(target)) != nullptr)
+            {
+                enemy->size--;
+                enemy->size_ninja--;
+            }
+            else if ((cowboy = dynamic_cast<Cowboy *>(target)) != nullptr)
             {
                 enemy->size--;
                 enemy->size_cowboy--;
             }
-            if ((dynamic_cast<Ninja *>(target)) != NULL)
+            else
             {
-                enemy->size--;
-                enemy->size_ninja--;
+                throw std::runtime_error("error");
             }
             target = close_player(this->leader);
         }
@@ -233,15 +254,19 @@ void Team::attack(Team *enemy)
     {
         if (!target->isAlive())
         {
-            if ((dynamic_cast<Cowboy *>(target)) != NULL)
+            if ((ninja = dynamic_cast<Ninja *>(target)) != nullptr)
+            {
+                enemy->size--;
+                enemy->size_ninja--;
+            }
+            else if ((cowboy = dynamic_cast<Cowboy *>(target)) != nullptr)
             {
                 enemy->size--;
                 enemy->size_cowboy--;
             }
-            if ((dynamic_cast<Ninja *>(target)) != NULL)
+            else
             {
-                enemy->size--;
-                enemy->size_ninja--;
+                throw std::runtime_error("error");
             }
             target = close_player(this->leader);
         }
@@ -282,26 +307,30 @@ int Team::stillAlive()
 
 void Team::print()
 {
-    for (size_t i = 0; i < size_cowboy; i++)
-    {
-        team_cowboy[i]->print();
-    }
+    // for (size_t i = 0; i < size_cowboy; i++)
+    // {
+    //     team_cowboy[i]->print();
+    // }
 
-    for (size_t i = 0; i < size_ninja; i++)
-    {
-        team_ninja[i]->print();
-    }
+    // for (size_t i = 0; i < size_ninja; i++)
+    // {
+    //     team_ninja[i]->print();
+    // }
 }
 
 Character *Team::close_player(Character *current_leader)
 {
+    // printf("size_cowboy %d\n", size_cowboy);
+    // printf("size_ninja %d\n", size_ninja);
     if (current_leader == nullptr)
     {
         throw std::runtime_error("The team is null");
     }
     int min = INT_MAX;
-    if (size_cowboy)
+    Character *closet_target = nullptr;
+    if (team_cowboy.size())
     {
+
         for (size_t i = 0; i < size_cowboy; i++)
         {
             if ((current_leader->distance(team_cowboy[i])) < min)
@@ -309,12 +338,12 @@ Character *Team::close_player(Character *current_leader)
                 if ((team_cowboy[i])->isAlive())
                 {
                     min = current_leader->distance(team_cowboy[i]);
-                    return team_cowboy[i];
+                    closet_target = team_cowboy[i];
                 }
             }
         }
     }
-    if (size_ninja)
+    if (team_ninja.size())
     {
         for (size_t j = 0; j < size_ninja; j++)
         {
@@ -323,10 +352,10 @@ Character *Team::close_player(Character *current_leader)
                 if ((team_ninja[j])->isAlive())
                 {
                     min = current_leader->distance(team_ninja[j]);
-                    return team_ninja[j];
+                    closet_target = team_ninja[j];
                 }
             }
         }
     }
-    return NULL;
+    return closet_target;
 }
