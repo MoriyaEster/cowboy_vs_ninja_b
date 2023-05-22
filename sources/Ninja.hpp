@@ -7,11 +7,10 @@ namespace ariel
 
     class Ninja : public Character
     {
-
         int _speed;
-        char _type = 'N';
 
     public:
+        char type = 'N';
         Ninja(Point location, int self_Hit, std::string name, int speed);
 
         void move(Character *target);
@@ -25,6 +24,6 @@ namespace ariel
         Ninja &operator=(Ninja &&other) noexcept;
         bool operator==(const Ninja &other) const;
 
-        virtual std::string print();
+        virtual std::string print() override;
     };
 }

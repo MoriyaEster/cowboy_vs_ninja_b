@@ -105,9 +105,9 @@ namespace ariel
 
     void Character::hit(int value)
     {
-        if (this->getself_Hit() - value < 0)
+        if (value < 0)
         {
-            this->setself_Hit(0);
+            throw std::invalid_argument("The value is negative");
         }
         this->setself_Hit(this->getself_Hit() - value);
     }

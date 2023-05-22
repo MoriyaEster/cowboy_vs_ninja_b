@@ -7,15 +7,15 @@ namespace ariel
     class Cowboy : public Character
     {
         int _num_Of_bolls;
-        char _type = 'C';
 
     public:
+        char type = 'C';
         Cowboy(std::string name, Point location);
-        Cowboy(Cowboy &other);          
-        Cowboy(Cowboy &&other) noexcept; 
-        virtual ~Cowboy();                      
+        Cowboy(Cowboy &other);
+        Cowboy(Cowboy &&other) noexcept;
+        virtual ~Cowboy();
 
-        Cowboy &operator=(const Cowboy &other);   
+        Cowboy &operator=(const Cowboy &other);
         Cowboy &operator=(Cowboy &&other) noexcept;
 
         void shoot(Character *target);
@@ -27,6 +27,6 @@ namespace ariel
 
         bool operator==(const Cowboy &other);
 
-        virtual std::string print();
+        virtual std::string print() override;
     };
 }

@@ -14,7 +14,7 @@ namespace ariel
     class Team2 : public Team
     {
     public:
-        std::vector<int> order;
+        // std::vector<int> order;
 
         Team2(Character *new_leader);
         virtual ~Team2();

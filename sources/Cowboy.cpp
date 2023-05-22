@@ -28,20 +28,25 @@ Cowboy::~Cowboy()
 
 void Cowboy::shoot(Character *target)
 {
+    if (!target->isAlive())
+    {
+        throw std::runtime_error("the target is dead");
+    }
+    if (!this->isAlive())
+    {
+        throw std::runtime_error("the player is dead");
+    }
     if (this->isAlive() && this->getNum_Of_bolls())
     {
-        this->_num_Of_bolls -= 1;
-        if ((target->getself_Hit() - 10) < 0)
-        {
-            target->setself_Hit(0);
-        }
-        target->setself_Hit(target->getself_Hit() - 10);
+        target->hit(10);
+        this->_num_Of_bolls--;
     }
 }
 
 bool Cowboy::hasboolets()
 {
-    if (this->getNum_Of_bolls() > 0){
+    if (this->getNum_Of_bolls() > 0)
+    {
         return true;
     }
     return false;
@@ -61,12 +66,12 @@ int Cowboy::getNum_Of_bolls()
 
 char Cowboy::getType()
 {
-    return _type;
+    return type;
 }
 
 bool Cowboy::operator==(const Cowboy &other)
 {
-    return Character::operator==(other) && _num_Of_bolls == other._num_Of_bolls && _type == other._type;
+    return Character::operator==(other) && _num_Of_bolls == other._num_Of_bolls && type == other.type;
 }
 
 Cowboy &Cowboy::operator=(Cowboy &&other) noexcept
@@ -77,7 +82,6 @@ Cowboy &Cowboy::operator=(Cowboy &&other) noexcept
 
         _num_Of_bolls = other._num_Of_bolls;
         other._num_Of_bolls = 0;
-
     }
     return *this;
 }

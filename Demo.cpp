@@ -36,25 +36,10 @@ int main()
    Team team_B(sushi);
    team_B.add(new TrainedNinja("Hikari", Point(12, 81)));
 
-   printf("team_A.size: %d\n", team_A.size);
-   printf("team_B.size: %d\n", team_B.size);
-   printf("team_A.size_cowboy: %d\n", team_A.size_cowboy);
-   printf("team_A.size_ninja: %d\n", team_A.size_ninja);
-   printf("team_B.size_cowboy: %d\n", team_A.size_cowboy);
-   printf("team_B.size_ninja: %d\n", team_A.size_ninja);
-
    while (team_A.stillAlive() > 0 && team_B.stillAlive() > 0)
    {
       team_A.attack(&team_B);
-      printf("team_A.size_cowboy: %d\n", team_A.size_cowboy);
-      printf("team_A.size_ninja: %d\n", team_A.size_ninja);
-      printf("team_B.size_cowboy: %d\n", team_A.size_cowboy);
-      printf("team_B.size_ninja: %d\n", team_A.size_ninja);
       team_B.attack(&team_A);
-      printf("team_A.size_cowboy: %d\n", team_A.size_cowboy);
-      printf("team_A.size_ninja: %d\n", team_A.size_ninja);
-      printf("team_B.size_cowboy: %d\n", team_A.size_cowboy);
-      printf("team_B.size_ninja: %d\n", team_A.size_ninja);
       team_A.print();
       team_B.print();
    }

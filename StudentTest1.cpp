@@ -164,28 +164,18 @@ TEST_SUITE("Classes initialization tests and Team modification( add(),stillAlive
     {
         auto cowboy = create_cowboy(2, 3);
         auto ninja = create_yninja(2, 3);
-        printf("is null: %d\n", ((dynamic_cast<Cowboy *>(cowboy)) != NULL));
-        printf("is null: %d\n", ((dynamic_cast<Ninja *>(ninja)) != NULL));
         Team team{cowboy};
         CHECK_EQ(team.stillAlive(), 1);
         Team2 team2{ninja};
-        printf("3: %d\n", team.size);
-        printf("4: %d\n", team2.size);
-        fflush(stdout);
         CHECK_EQ(team2.stillAlive(), 1);
     }
 
     TEST_CASE("Team class add() and stillAlive() methods")
     {
-        fflush(stdout);
         auto captain1 = create_oninja();
         auto captain2 = create_yninja();
         Team team1{captain1};
         Team2 team2{captain2};
-        printf("5: %d\n", team1.size);
-        fflush(stdout);
-        printf("6: %d\n", team2.size);
-        fflush(stdout);
 
         // Every addition should rise the value returned by stillAlive()
         for (int i = 0; i < MAX_TEAM - 1; i++)

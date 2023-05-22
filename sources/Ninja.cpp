@@ -30,12 +30,12 @@ void Ninja::slash(Character *target)
 }
 
 Ninja::Ninja(const Ninja &other)
-    : Character(other), _speed(other._speed), _type(other._type)
+    : Character(other), _speed(other._speed), type(other.type)
 {
 }
 
 Ninja::Ninja(Ninja &&other) noexcept
-    : Character(std::move(other)), _speed(other._speed), _type(other._type)
+    : Character(std::move(other)), _speed(other._speed), type(other.type)
 {
 }
 
@@ -47,7 +47,7 @@ Ninja &Ninja::operator=(const Ninja &other)
     {
         Character::operator=(other);
         _speed = other._speed;
-        _type = other._type;
+        type = other.type;
     }
     return *this;
 }
@@ -58,14 +58,14 @@ Ninja &Ninja::operator=(Ninja &&other) noexcept
     {
         Character::operator=(std::move(other));
         _speed = other._speed;
-        _type = other._type;
+        type = other.type;
     }
     return *this;
 }
 
 bool Ninja::operator==(const Ninja &other) const
 {
-    return Character::operator==(other) && _speed == other._speed && _type == other._type;
+    return Character::operator==(other) && _speed == other._speed && type == other.type;
 }
 
 std::string Ninja::print()
