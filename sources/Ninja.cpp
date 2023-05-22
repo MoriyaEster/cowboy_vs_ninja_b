@@ -19,6 +19,22 @@ void Ninja::move(Character *target)
 
 void Ninja::slash(Character *target)
 {
+    if (target == nullptr)
+    {
+        throw std::runtime_error("The target is null");
+    }
+    if (!target->isAlive())
+    {
+        throw std::runtime_error("The target is dead");
+    }
+    if (!this->isAlive())
+    {
+        throw std::runtime_error("The player is dead");
+    }
+    if (this == target)
+    {
+        throw std::runtime_error("No self harm");
+    }
     if (this->isAlive() && ((this->getLocation()).distance(target->getLocation()) <= 1))
     {
         if ((target->getself_Hit() - 40) < 0)

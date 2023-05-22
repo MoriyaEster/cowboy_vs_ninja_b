@@ -28,13 +28,21 @@ Cowboy::~Cowboy()
 
 void Cowboy::shoot(Character *target)
 {
+    if (target == nullptr)
+    {
+        throw std::runtime_error("The target is null");
+    }
     if (!target->isAlive())
     {
-        throw std::runtime_error("the target is dead");
+        throw std::runtime_error("The target is dead");
     }
     if (!this->isAlive())
     {
-        throw std::runtime_error("the player is dead");
+        throw std::runtime_error("The player is dead");
+    }
+    if (this == target)
+    {
+        throw std::runtime_error("No self harm");
     }
     if (this->isAlive() && this->getNum_Of_bolls())
     {
