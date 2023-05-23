@@ -119,16 +119,16 @@ void Team::attack(Team *enemy)
         throw std::runtime_error("the team died");
     }
 
-    if (!enemy->leader->isAlive())
+    if (!this->leader->isAlive())
     {
-        enemy->leader = close_player(enemy->leader);
-        if (enemy->leader == nullptr)
+        this->leader = close_player(this);
+        if (this->leader == nullptr)
         {
             throw std::runtime_error("the leade is null");
         }
     }
 
-    Character *target = close_player(this->leader);
+    Character *target = close_player(enemy);
 
     if (target == nullptr)
     {
@@ -141,25 +141,32 @@ void Team::attack(Team *enemy)
         {
             return;
         }
-        if (!target->isAlive())
-        {
-            target = close_player(this->leader);
+        // if (!target->isAlive())
+        // {
+        //     target = close_player(enemy);
 
-            if (target == nullptr)
-            {
-                throw std::runtime_error("target is null");
-            }
-        }
+        //     if (target == nullptr)
+        //     {
+        //         throw std::runtime_error("target is null");
+        //     }
+        // }
         if (!team_cowboy[i]->isAlive())
         {
             throw std::runtime_error("the cowboy is dead");
         }
-
         else
         {
+            target = close_player(enemy);
+            if (target == nullptr)
+            {
+                throw std::runtime_error("target is null");
+            }
             if (!team_cowboy[i]->hasboolets())
                 team_cowboy[i]->reload();
-            team_cowboy[i]->shoot(target);
+            else if (team_cowboy[i] != target && team_cowboy[i]->isAlive() && target->isAlive())
+            {
+                team_cowboy[i]->shoot(target);
+            }
         }
     }
 
@@ -169,14 +176,14 @@ void Team::attack(Team *enemy)
         {
             return;
         }
-        if (!target->isAlive())
-        {
-            target = close_player(this->leader);
-            if (target == nullptr)
-            {
-                throw std::runtime_error("target is null");
-            }
-        }
+        // if (!target->isAlive())
+        // {
+        //     target = close_player(enemy);
+        //     if (target == nullptr)
+        //     {
+        //         throw std::runtime_error("target is null");
+        //     }
+        // }
         if (!team_ninja[j]->isAlive())
         {
             throw std::runtime_error("the ninja is dead");
@@ -184,11 +191,19 @@ void Team::attack(Team *enemy)
 
         else
         {
-            if ((team_ninja[j]->distance(target)) < 1)
+            target = close_player(enemy);
+            if (target == nullptr)
+            {
+                throw std::runtime_error("target is null");
+            }
+            if (((team_ninja[j]->distance(target)) < 1) && team_ninja[j]->isAlive() && target->isAlive())
             {
                 team_ninja[j]->slash(target);
             }
-            team_ninja[j]->move(target);
+            else
+            {
+                team_ninja[j]->move(target);
+            }
         }
     }
 }
@@ -230,35 +245,35 @@ void Team::print()
     // }
 }
 
-Character *Team::close_player(Character *current_leader)
+Character *Team::close_player(Team *team)
 {
-    if (current_leader == nullptr)
+    if (team == nullptr)
     {
         throw std::runtime_error("The team is null");
     }
     int min = INT_MAX;
-    Character *closet_target = current_leader;
+    Character *closet_target = this->leader;
 
-    for (size_t i = 0; i < team_cowboy.size(); i++)
+    for (size_t i = 0; i < team->team_cowboy.size(); i++)
     {
-        if ((current_leader->distance(team_cowboy[i])) < min)
+        if ((this->leader->distance(team->team_cowboy[i])) < min)
         {
-            if ((team_cowboy[i])->isAlive())
+            if ((team->team_cowboy[i])->isAlive())
             {
-                min = current_leader->distance(team_cowboy[i]);
-                closet_target = team_cowboy[i];
+                min = this->leader->distance(team->team_cowboy[i]);
+                closet_target = team->team_cowboy[i];
             }
         }
     }
-    
-    for (size_t j = 0; j < team_ninja.size(); j++)
+
+    for (size_t j = 0; j < team->team_ninja.size(); j++)
     {
-        if ((current_leader->distance(team_ninja[j])) < min)
+        if ((this->leader->distance(team->team_ninja[j])) < min)
         {
-            if ((team_ninja[j])->isAlive())
+            if ((team->team_ninja[j])->isAlive())
             {
-                min = current_leader->distance(team_ninja[j]);
-                closet_target = team_ninja[j];
+                min = this->leader->distance(team->team_ninja[j]);
+                closet_target = team->team_ninja[j];
             }
         }
     }

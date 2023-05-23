@@ -23,7 +23,7 @@ namespace ariel
     public:
         bool play_now = false;
         Character(Point location, int self_Hit, std::string name);
-        Character();
+        // Character();
         Character(const Character &other);
         Character(Character &&other) noexcept;
         virtual ~Character();

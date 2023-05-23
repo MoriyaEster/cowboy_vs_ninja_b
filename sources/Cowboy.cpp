@@ -44,7 +44,7 @@ void Cowboy::shoot(Character *target)
     {
         throw std::runtime_error("No self harm");
     }
-    if (this->isAlive() && this->getNum_Of_bolls())
+    if (this->isAlive() && this->hasboolets())
     {
         target->hit(10);
         this->_num_Of_bolls--;
@@ -62,7 +62,11 @@ bool Cowboy::hasboolets()
 
 void Cowboy::reload()
 {
-    _num_Of_bolls += 6;
+    if (!this->isAlive())
+    {
+        throw std::runtime_error("The player is dead");
+    }
+    _num_Of_bolls = 6;
 }
 
 // ********************************************************************** //

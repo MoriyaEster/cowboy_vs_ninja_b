@@ -13,10 +13,10 @@ namespace ariel
     {
     }
 
-    Character::Character()
-        : _location(Point()), _self_Hit(0), _name("Computer")
-    {
-    }
+    // Character::Character()
+    //     : _location(Point()), _self_Hit(0), _name("Computer")
+    // {
+    // }
 
     Character::Character(const Character &other)
         : _location(other._location), _self_Hit(other._self_Hit), _name(other._name)
@@ -109,7 +109,7 @@ namespace ariel
         {
             throw std::invalid_argument("The value is negative");
         }
-        this->setself_Hit(this->getself_Hit() - value);
+        this->_self_Hit -= value;
     }
 
     std::string Character::getName()

@@ -40,7 +40,7 @@ namespace ariel
         virtual int stillAlive();
         virtual void print();
 
-        virtual Character *close_player(Character * current_leader);
+        virtual Character *close_player(Team *enemy);
     };
 
 }
