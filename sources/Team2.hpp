@@ -25,7 +25,7 @@ namespace ariel
         // virtual void add(Character *player) override;
         virtual void attack(Team *enemy) override;
         virtual int stillAlive() override;
-        // virtual void print() override;
+        virtual void print() override;
 
         virtual Character *close_player(Team *enemy) override;
     };

@@ -83,6 +83,12 @@ bool Ninja::operator==(const Ninja &other) const
 std::string Ninja::print()
 {
     std::ostringstream oss;
-    oss << "The name of the character: 'N' - " << this->getName() << " , The num of self_Hit: " << this->getself_Hit() << " , The location of the Ninja is: " << (this->getLocation()).print();
+    if (this->isAlive())
+    {
+        oss << "The name of the character: 'N' - " << this->getName() << " , The num of self_Hit: " << this->getself_Hit() << " , The location of the Ninja is: " << (this->getLocation()).print();
+    }
+    else{
+        oss << "The name of the character: 'N' - " << "(" << this->getName() << ")" << " , The location of the Ninja is: " << (this->getLocation()).print();
+    }
     return oss.str();
 }

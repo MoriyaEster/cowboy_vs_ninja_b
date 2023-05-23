@@ -101,6 +101,14 @@ Cowboy &Cowboy::operator=(Cowboy &&other) noexcept
 std::string Cowboy::print()
 {
     std::ostringstream oss;
-    oss << "The name of the character: 'C' - " << this->getName() << " , The num of self_Hit: " << this->getself_Hit() << " , The location of the Cowboy is: " << (this->getLocation()).print();
+    if (this->isAlive())
+    {
+        oss << "The name of the character: 'C' - " << this->getName() << " , The num of self_Hit: " << this->getself_Hit() << " , The location of the Cowboy is: " << (this->getLocation()).print();
+    }
+    else
+    {
+        oss << "The name of the character: 'C' - " << "(" << this->getName() << ")" << " , The location of the Cowboy is: " << (this->getLocation()).print();
+    }
+
     return oss.str();
 }

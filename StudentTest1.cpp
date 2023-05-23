@@ -557,13 +557,6 @@ TEST_SUITE("Battle simulations")
         auto team2_c3 = create_cowboy(3, 0); //
         auto team_c3 = create_cowboy(5, 0);  //
         auto team2_c4 = create_cowboy(-5, 0);
-        printf("1team_c1 is alive: %d\n", team_c1->isAlive());
-        printf("1team2_c1 is alive: %d\n", team2_c1->isAlive());
-        printf("1team_c2 is alive: %d\n", team_c2->isAlive());
-        printf("1team2_c2 is alive: %d\n", team_c2->isAlive());
-        printf("1team_c3 is alive: %d\n", team_c3->isAlive());
-        printf("1team2_c1 is alive: %d\n", team2_c3->isAlive());
-        printf("1team2_c4 is alive: %d\n", team2_c4->isAlive());
 
         Team team1{team_c1};
         team1.add(team_c2);
@@ -572,46 +565,15 @@ TEST_SUITE("Battle simulations")
         team2.add(team2_c1);
         team2.add(team2_c3);
         team2.add(team2_c4);
-        printf("2team_c1 is alive: %d\n", team_c1->isAlive());
-        printf("2team2_c1 is alive: %d\n", team2_c1->isAlive());
-        printf("2team_c2 is alive: %d\n", team_c2->isAlive());
-        printf("2team2_c2 is alive: %d\n", team_c2->isAlive());
-        printf("2team_c3 is alive: %d\n", team_c3->isAlive());
-        printf("2team2_c1 is alive: %d\n", team2_c3->isAlive());
-        printf("2team2_c4 is alive: %d\n", team2_c4->isAlive());
 
         multi_attack(4, team1, team2);
-        printf("3team_c1 is alive: %d\n", team_c1->isAlive());
-        printf("3team2_c1 is alive: %d\n", team2_c1->isAlive());
-        printf("3team_c2 is alive: %d\n", team_c2->isAlive());
-        printf("3team2_c2 is alive: %d\n", team_c2->isAlive());
-        printf("3team_c3 is alive: %d\n", team_c3->isAlive());
-        printf("3team2_c1 is alive: %d\n", team2_c3->isAlive());
-        printf("3team2_c4 is alive: %d\n", team2_c4->isAlive());
 
         // The captain of team2 is the closest enemy to the captain of team1, and therefore should be dead.
         CHECK((!team2_c2->isAlive() && team2_c1->isAlive() && team2_c3->isAlive() && team2_c4->isAlive()));
-        printf("4team_c1 is alive: %d\n", team_c1->isAlive());
-        printf("4team2_c1 is alive: %d\n", team2_c1->isAlive());
-        printf("4team_c2 is alive: %d\n", team_c2->isAlive());
-        printf("4team2_c2 is alive: %d\n", team_c2->isAlive());
-        printf("4team_c3 is alive: %d\n", team_c3->isAlive());
-        printf("4team2_c1 is alive: %d\n", team2_c3->isAlive());
-        printf("4team2_c4 is alive: %d\n", team2_c4->isAlive());
 
         // At this point, the captain should be team2_c3; hence, the next enemy to be attacked by team2 should team_c3.
-        cout << "the captain: " << team2.leader << endl;
-        cout << "the name of team2_c3: " << team2_c3 << endl;
         multi_attack(6, team2, team1);
         CHECK((!team_c3->isAlive() && team_c1->isAlive() && team_c2->isAlive()));
-        printf("5team_c1 is alive: %d\n", team_c1->isAlive());
-        printf("5team2_c1 is alive: %d\n", team2_c1->isAlive());
-        printf("5team_c2 is alive: %d\n", team_c2->isAlive());
-        printf("5team2_c2 is alive: %d\n", team_c2->isAlive());
-        printf("5team_c3 is alive: %d\n", team_c3->isAlive());
-        printf("5team2_c1 is alive: %d\n", team2_c3->isAlive());
-        printf("5team2_c4 is alive: %d\n", team2_c4->isAlive());
-        fflush(stdout);
 
         // Killing the new captain
         while (team2_c3->isAlive())
@@ -619,13 +581,6 @@ TEST_SUITE("Battle simulations")
             team_c1->reload();
             team_c1->shoot(team2_c3);
         }
-        printf("6team_c1 is alive: %d\n", team_c1->isAlive());
-        printf("6team2_c1 is alive: %d\n", team2_c1->isAlive());
-        printf("6team_c2 is alive: %d\n", team_c2->isAlive());
-        printf("6team2_c2 is alive: %d\n", team_c2->isAlive());
-        printf("6team_c3 is alive: %d\n", team_c3->isAlive());
-        printf("6team2_c1 is alive: %d\n", team2_c3->isAlive());
-        printf("6team2_c4 is alive: %d\n", team2_c4->isAlive());
         CHECK((!team2_c2->isAlive() && team2_c1->isAlive() && !team2_c3->isAlive() && team2_c4->isAlive()));
 
         // Next captain should be team2_c1, hence, the next enemy to be attacked by team2 should team_cc.

@@ -213,15 +213,15 @@ int Team::stillAlive()
 
 void Team::print()
 {
-    // for (size_t i = 0; i < size_cowboy; i++)
-    // {
-    //     team_cowboy[i]->print();
-    // }
+    for (size_t i = 0; i < team_cowboy.size(); i++)
+    {
+        team_cowboy[i]->print();
+    }
 
-    // for (size_t i = 0; i < size_ninja; i++)
-    // {
-    //     team_ninja[i]->print();
-    // }
+    for (size_t i = 0; i < team_ninja.size(); i++)
+    {
+        team_ninja[i]->print();
+    }
 }
 
 Character *Team::close_player(Team *team)
