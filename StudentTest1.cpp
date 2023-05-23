@@ -600,6 +600,8 @@ TEST_SUITE("Battle simulations")
         printf("4team2_c4 is alive: %d\n", team2_c4->isAlive());
 
         // At this point, the captain should be team2_c3; hence, the next enemy to be attacked by team2 should team_c3.
+        cout << "the captain: " << team2.leader << endl;
+        cout << "the name of team2_c3: " << team2_c3 << endl;
         multi_attack(6, team2, team1);
         CHECK((!team_c3->isAlive() && team_c1->isAlive() && team_c2->isAlive()));
         printf("5team_c1 is alive: %d\n", team_c1->isAlive());
@@ -609,6 +611,7 @@ TEST_SUITE("Battle simulations")
         printf("5team_c3 is alive: %d\n", team_c3->isAlive());
         printf("5team2_c1 is alive: %d\n", team2_c3->isAlive());
         printf("5team2_c4 is alive: %d\n", team2_c4->isAlive());
+        fflush(stdout);
 
         // Killing the new captain
         while (team2_c3->isAlive())

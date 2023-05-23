@@ -22,6 +22,7 @@ namespace ariel
     public:
         std::vector<Ninja *> team_ninja;
         std::vector<Cowboy *> team_cowboy;
+        std::vector<int> order;
         Character *leader;
         int size;
         int size_ninja;
@@ -35,7 +36,7 @@ namespace ariel
         // Team &operator=(const Team &other);
         // bool operator==(const Team &other) const;
 
-        virtual void add (Character *player);
+        void add (Character *player);
         virtual void attack(Team *enemy);
         virtual int stillAlive();
         virtual void print();

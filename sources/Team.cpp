@@ -25,6 +25,7 @@ Team::Team(Character *new_leader)
         if (ninjaptr != nullptr)
         {
             team_ninja.push_back(ninjaptr);
+            order.push_back(1);
             this->size_ninja = 1;
             this->size = 1;
         }
@@ -35,6 +36,7 @@ Team::Team(Character *new_leader)
         if (cowboyptr != nullptr)
         {
             team_cowboy.push_back(cowboyptr);
+            order.push_back(0);
             this->size_cowboy = 1;
             this->size = 1;
         }
@@ -82,12 +84,14 @@ void Team::add(Character *player)
     if (ninja != nullptr)
     {
         team_ninja.push_back(ninja);
+        order.push_back(1);
         size_ninja++;
         size++;
     }
     else if (cowboy != nullptr)
     {
         team_cowboy.push_back(cowboy);
+        order.push_back(0);
         size_cowboy++;
         size++;
     }
@@ -141,20 +145,7 @@ void Team::attack(Team *enemy)
         {
             return;
         }
-        // if (!target->isAlive())
-        // {
-        //     target = close_player(enemy);
-
-        //     if (target == nullptr)
-        //     {
-        //         throw std::runtime_error("target is null");
-        //     }
-        // }
-        if (!team_cowboy[i]->isAlive())
-        {
-            throw std::runtime_error("the cowboy is dead");
-        }
-        else
+        if (team_cowboy[i]->isAlive())
         {
             target = close_player(enemy);
             if (target == nullptr)
@@ -163,6 +154,7 @@ void Team::attack(Team *enemy)
             }
             if (!team_cowboy[i]->hasboolets())
                 team_cowboy[i]->reload();
+
             else if (team_cowboy[i] != target && team_cowboy[i]->isAlive() && target->isAlive())
             {
                 team_cowboy[i]->shoot(target);
@@ -176,27 +168,14 @@ void Team::attack(Team *enemy)
         {
             return;
         }
-        // if (!target->isAlive())
-        // {
-        //     target = close_player(enemy);
-        //     if (target == nullptr)
-        //     {
-        //         throw std::runtime_error("target is null");
-        //     }
-        // }
-        if (!team_ninja[j]->isAlive())
-        {
-            throw std::runtime_error("the ninja is dead");
-        }
-
-        else
+        if (team_ninja[j]->isAlive())
         {
             target = close_player(enemy);
             if (target == nullptr)
             {
                 throw std::runtime_error("target is null");
             }
-            if (((team_ninja[j]->distance(target)) < 1) && team_ninja[j]->isAlive() && target->isAlive())
+            if (team_ninja[j]->isAlive() && target->isAlive() && team_ninja[j] != target && ((team_ninja[j]->distance(target)) <= 1))
             {
                 team_ninja[j]->slash(target);
             }
@@ -252,7 +231,7 @@ Character *Team::close_player(Team *team)
         throw std::runtime_error("The team is null");
     }
     int min = INT_MAX;
-    Character *closet_target = this->leader;
+    Character *closet_target = NULL;
 
     for (size_t i = 0; i < team->team_cowboy.size(); i++)
     {
